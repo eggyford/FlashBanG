@@ -7,7 +7,7 @@ def getUserByName(username):
             username
         ],
 
-        "excludeBannedUsers": True # Whether to include banned users within the request, change this as you wish
+        "excludeBannedUsers": False # Whether to include banned users within the request, change this as you wish
     }
 
     responseData = requests.post(ROBLOX_USER_API, json=requestPayload)
@@ -24,7 +24,7 @@ def getUserByID(id):
             id
         ],
 
-        "excludeBannedUsers": True # Whether to include banned users within the request, change this as you wish
+        "excludeBannedUsers": False # Whether to include banned users within the request, change this as you wish
     }
 
     responseData = requests.post(ROBLOX_USER_API, json=requestPayload)

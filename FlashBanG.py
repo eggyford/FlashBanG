@@ -5,7 +5,6 @@ import logging
 from dotenv import load_dotenv
 import os
 from typing import Optional
-from ro_py import Client
 import gc
 from userGet import *
 from userStats import *
@@ -40,8 +39,6 @@ async def getinfo(ctx: discord.Interaction, name: Optional[str] = None, id: Opti
     if name is not None and id is not None:
         await ctx.response.send_message('Give one or the other im not making this thing 100 lines longer', ephemeral=EPHEMERAL)
         return
-    
-    client = Client()
 
     try:
         if name is not None:
@@ -79,10 +76,56 @@ async def getinfo(ctx: discord.Interaction, name: Optional[str] = None, id: Opti
 
     await ctx.response.send_message(embed=embed)
 
-
-
-    del user, client, ctx
+    del user, ctx
     gc.collect()
+    return
+
+# --------------------------------- BAN/UNBAN ---------------------------------
+
+@bot.tree.command(name='ban', description='ban by name/id', guild=GUILD_ID)
+@app_commands.describe(
+    name='Name of player',
+    id='ID of player'
+)
+async def ban(ctx: discord.Interaction, name: Optional[str] = None, id: Optional[int] = None):
+
+    if name is None and id is None:
+        await ctx.response.send_message('Provide a player name/id', ephemeral=EPHEMERAL)
+        return
+
+    if name is not None and id is not None:
+        await ctx.response.send_message('Give one or the other im not making this thing 100 lines longer', ephemeral=EPHEMERAL)
+        return
+    
+    if id is not None:
+        name = getUserByID(id)['name']
+    
+    await ctx.response.send_message(f'Debug: ban {name} received', ephemeral=EPHEMERAL)
+    # call to ban endpoint
+
+    return
+
+@bot.tree.command(name='unban', description='unban by name/id', guild=GUILD_ID)
+@app_commands.describe(
+    name='Name of player',
+    id='ID of player'
+)
+async def ban(ctx: discord.Interaction, name: Optional[str] = None, id: Optional[int] = None):
+
+    if name is None and id is None:
+        await ctx.response.send_message('Provide a player name/id', ephemeral=EPHEMERAL)
+        return
+
+    if name is not None and id is not None:
+        await ctx.response.send_message('Give one or the other im not making this thing 100 lines longer', ephemeral=EPHEMERAL)
+        return
+    
+    if id is not None:
+        name = getUserByID(id)['name']
+    
+    await ctx.response.send_message(f'Debug: unban {name} received', ephemeral=EPHEMERAL)
+    # call to unban endpoint
+
     return
 
 # --------------------------------- COMMANDS ---------------------------------
